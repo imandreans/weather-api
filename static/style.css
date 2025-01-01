@@ -1,0 +1,89 @@
+
+body{
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    background-color: #F5F6FA;
+    color: #6D93AD;
+    display: flex;
+    min-height: 98vh;
+}
+.error{
+    color: #D93D6C;
+    font-weight: bolder;
+}
+#weather-report{
+    height: 98vh;
+    border: 10px solid white;
+    box-sizing: border-box;
+}
+#title{
+    font-size: 3.2rem;
+}
+h4{
+    color: #D93D6C;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+table{
+    border-collapse: collapse;
+    border: 2px solid #6D93AD;
+    
+}
+th,td{
+    border: 2px solid #6D93AD;
+    padding: 10px;
+}
+
+tbody > tr:nth-of-type(odd){
+    background-color: white;
+}
+input{
+    padding: 6px;
+    border-radius: 2px;
+    border: none;
+    font-weight: 500;
+    color: #6D93AD;
+}
+input[type=text]{
+/* border: 2px solid #F5F6FA; */
+background-color: #6D93AD;
+color: white;
+}
+input[type=text]:focus{
+    padding: 4px;
+    border: 2px solid #6D93AD;
+    outline: none!important;
+}
+#submit{
+    padding-left: 20px;
+    padding-right: 20px;
+    font-weight: 500;
+    background-color: #6D93AD;
+    cursor: pointer;
+    border-radius: 2px;
+    color: white;
+}
+#submit:active{
+    color: #6D93AD;
+    background-color: #F5F6FA;
+}
+
+@media screen and (max-width: 1100px) {
+    body{
+        display: flex;
+        flex-direction: column;
+    }
+    #weather-report{
+        height: 500px;
+        object-fit: cover;
+        object-position: 100% 0;
+    }
+}
