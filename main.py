@@ -1,4 +1,4 @@
-from flask import Flask, make_response, render_template, redirect, request
+from flask import Flask, make_response, render_template, redirect, request, flash
 import requests
 import redis
 from dotenv import load_dotenv
@@ -53,6 +53,7 @@ def home():
           except json.decoder.JSONDecodeError:
                return make_response({"error": "Invalid JSON"})
           except Exception as e:
+               flash(f"{status_code} {e}")
                return make_response({"error" : f'Unknown Error - {str(e)}'})
           # Handling API Call
           try:
@@ -71,15 +72,16 @@ def home():
                #return the error's details
                status_code = response.status_code
                error_details = '' 
-               match status_code:
-                    case 401 : 
-                         error_details = 'Valid API Key is required.'
-                    case 400 : 
-                         error_details = 'Location is required.'
-                    case 404 : 
-                         error_details = 'Location is not found.'
-                    case _:
-                         error_details = f'Unknown error - {str(e)}'
+               if status_code == 401:
+                    error_details = 'API key is invalid!'
+                    return render_template('home.html', form=form, error=error_details)               
+               
+               elif status_code == 400 : 
+                    error_details = 'Invalid Location!'
+               else:
+                    error_info = ' '.join(str(e).split(" ")[:3])
+                    error_details = f'Unknown error - {error_info}'
+               
                # return make_response({"error": error_details}, status_code)
                return render_template("400.html", error=error_details)
      return render_template('home.html', form=form)

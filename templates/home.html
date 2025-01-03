@@ -16,6 +16,10 @@
 <span class="error">{{error}}</span>
 {% endfor %}
 {% endif %}
+
+{% if error%}
+<span class="error">{{error}}</span>
+{% endif %}
 {% if weather_data %}
 <!-- <h1>{{weather_data['address']}}</h1> -->
 <h4> Today's Weather is {{weather_data['currentConditions']['conditions']}}</h4>
