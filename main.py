@@ -26,7 +26,7 @@ class LocationForm(FlaskForm):
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)   
 
-redis_client = redis.Redis(host=os.getenv('LOCAL_HOST'), port=os.getenv('PORT'), db=0)
+# redis_client = redis.Redis(host=os.getenv('LOCAL_HOST'), port=os.getenv('PORT'), db=0)
 
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
@@ -46,10 +46,11 @@ def home():
      # print(request.args.get('location'))
      if form.validate_on_submit() and request.method == 'POST':
           try: 
-               redis_key = request.form['location']
-               weather_data = redis_client.get(redis_key) 
-               if weather_data:
-                    return render_weather_template(json.loads(weather_data))
+               # redis_key = request.form['location']
+               location = request.form['location']
+               # weather_data = redis_client.get(redis_key) 
+               if location:
+                    return render_weather_template(json.loads(location))
           except json.decoder.JSONDecodeError:
                return make_response({"error": "Invalid JSON"})
           except Exception as e:
@@ -59,13 +60,13 @@ def home():
           try:
                # with limiter.limit('2/hour'):
                     #source of wanted data
-               api_link = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{redis_key}?unitGroup=metric&key={api_key}'
+               api_link = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}?unitGroup=metric&key={api_key}'
                #request to get data from that source
                response = requests.get(api_link)
                #receive HTTPError status if occured
                response.raise_for_status()
                #return the fetched data
-               redis_client.setex(redis_key, 300, json.dumps(response.json()))
+               # redis_client.setex(redis_key, 300, json.dumps(response.json()))
                return render_weather_template(response.json())
           #If HTTPError is occured
           except requests.exceptions.HTTPError as e:
