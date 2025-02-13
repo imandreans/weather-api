@@ -42,22 +42,13 @@ def home():
      Object of Location Form must be the same object. Otherwise, 
      the input wont be received or validated
      """
-     # print(request.form['location'])
      # print(request.args.get('location'))
      if form.validate_on_submit() and request.method == 'POST':
-          try: 
+          
                # redis_key = request.form['location']
-               location = request.form['location']
-               # weather_data = redis_client.get(redis_key) 
-               if location:
-                    return render_weather_template(json.loads(location))
-          except json.decoder.JSONDecodeError:
-               return make_response({"error": "Invalid JSON"})
-          except Exception as e:
-               flash(f"{status_code} {e}")
-               return make_response({"error" : f'Unknown Error - {str(e)}'})
           # Handling API Call
           try:
+               location = request.form['location']
                # with limiter.limit('2/hour'):
                     #source of wanted data
                api_link = f'https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{location}?unitGroup=metric&key={api_key}'
