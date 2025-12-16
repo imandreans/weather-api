@@ -3,5 +3,6 @@ This project informs you a today's weather condtion and the prediction of 14 day
 ## Tech Stack
 - Python
 - Flask
+- Redis (For Caching)
 ---
 This project is available in https://roadmap.sh/projects/weather-api-wrapper-service
